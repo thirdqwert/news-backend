@@ -25,12 +25,27 @@ class News(models.Model):
     content = models.TextField(verbose_name="Html код для страницы")
     news_views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
     preview = models.CharField(verbose_name="Превью изображение")
-    # нужно решить проьлему с избражения. Где хранить и как хранить
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+
 
     class Meta:
         verbose_name = "Новость"
         verbose_name_plural = "Новости"
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название статьи")
+    category = models.ManyToManyField(Category, verbose_name="Категория статьи")
+    desc = models.TextField(verbose_name="Ознакомительное описание")
+    content = models.TextField(verbose_name="Html код для страницы")
+    article_views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
+    preview = models.CharField(verbose_name="Превью изображение")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+
+    
+    class Meta:
+        verbose_name = "Статья"
+        verbose_name_plural = "Статьи"
 
 
 class Image(models.Model):

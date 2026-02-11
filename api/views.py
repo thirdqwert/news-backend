@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics, permissions, pagination, response
-from .models import Category, News, Image
-from .serializers import NewsSerializer, CategorySerializer, ImageSerializer
+from .models import Category, News, Image, Article
+from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer
 
 
 class Pagination(pagination.PageNumberPagination):
@@ -48,3 +48,30 @@ class ImageViewSet(viewsets.ModelViewSet):
         if orderBy is not None:
             queryset = Image.objects.all().order_by(orderBy)
         return queryset
+
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAdminUser]
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        orderBy = self.request.query_params.get('orderBy')
+        queryset = Article.objects.all()
+        if orderBy is not None:
+            queryset = Article.objects.all().order_by(orderBy)
+        return queryset
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return super().get_permissions()
+
+    def retrieve(self, request, *args, **kwargs):
+        news = self.get_object()
+        news.article_views = news.article_views + 1
+        news.save()
+        serializer = self.get_serializer(news)
+        return response.Response(serializer.data)
+    
+    

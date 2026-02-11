@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, News, Image
+from .models import Category, News, Image, Article
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -25,7 +25,6 @@ class NewsSerializer(serializers.ModelSerializer):
         read_only_fields = ["news_views", "created_at", "preview"]
 
 
-
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -46,3 +45,26 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ["id", "title", "image_link", "created_at", "image_field"]
         read_only_fields = ["image_link", "created_at"]
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField(many=True, read_only=True)
+    category_choose = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        source='category',
+        many=True,
+        write_only=True
+    )
+    preview_field = serializers.ImageField(write_only=True, required=True)
+
+    def create(self, validated_data):
+        image = validated_data.pop('preview_field')
+        # сделать тут систему загрузки изображения на яндекс
+
+        validated_data.update({'preview': str(image)})
+        return super().create(validated_data)
+
+    class Meta:
+        model = Article
+        fields = ["id", "title", "category", "desc", "content", "article_views", "preview", "created_at", "category_choose", "preview_field"]
+        read_only_fields = ["article_views", "created_at", "preview"]

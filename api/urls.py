@@ -7,6 +7,7 @@ from django.urls import path
 router = DefaultRouter()
 router.register('news', viewset=views.NewsViewSet, basename='news')
 router.register('images', viewset=views.ImageViewSet, basename='images')
+router.register('articles', viewset=views.ArticleViewSet, basename='article')
 
 patterns = [
     path('categories/', views.CategoryList.as_view(), name='categories_list'),
