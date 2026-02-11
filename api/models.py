@@ -5,7 +5,9 @@ from django.db import models
 # система изображений 
 # система рекламы
 # система ключа
-# система количсетво запросов
+# сисема rate limit
+# система голосовый сообщений
+# система конфериацмй изображений в afiv
 
 class Category(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название категории")
