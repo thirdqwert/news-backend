@@ -51,16 +51,10 @@ class CategoryCreate(generics.CreateAPIView):
 
 
 class ImageViewSet(viewsets.ModelViewSet):
+    queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = [permissions.IsAdminUser]
     pagination_class = Pagination
-
-    def get_queryset(self):
-        orderBy = self.request.query_params.get('orderBy')
-        queryset = Image.objects.all()
-        if orderBy is not None:
-            queryset = Image.objects.all().order_by(orderBy)
-        return queryset
 
 
 class ArticleViewSet(viewsets.ModelViewSet):

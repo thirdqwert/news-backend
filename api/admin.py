@@ -6,7 +6,7 @@ from .models import News, Category, Image, Article
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["pk", "title"]
     list_display_links = ["pk"]
-    ordering_d = ["pk"]
+    ordering = ["pk"]
     list_per_page = 36
     search_fields = ["title"]
 

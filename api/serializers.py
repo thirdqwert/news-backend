@@ -1,23 +1,40 @@
+import io
+import pillow_avif
+from datetime import datetime
 from rest_framework import serializers
 from .models import Category, News, Image, Article
+from PIL import Image as Pillow_Image
+from django.core.files.base import ContentFile
+
+
+
+def save_image(input_image, title):
+    # Функция конвертирование и сохранение изображений 
+    img = Pillow_Image.open(input_image)
+    buffer = io.BytesIO()
+    img.save(buffer, format="AVIF", quality=60)
+    file_name = f"{title + str(datetime.now())}.avif"
+    django_file = ContentFile(buffer.getvalue(), name=file_name)
+
+    return django_file
+
 
 
 class NewsSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True, read_only=True)
     category_choose = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
-        source='category',
+        source="category",
         many=True,
         write_only=True
     )
-    # preview_field = serializers.ImageField(write_only=True, required=True)
 
-    # def create(self, validated_data):
-    #     image = validated_data.pop('preview_field')
-    #     # сделать тут систему загрузки изображения на яндекс
+    def create(self, validated_data):
+        input_image = validated_data.pop("preview")
+        file = save_image(input_image, validated_data.get('title'))
+        validated_data.update({ "preview": file })
 
-    #     validated_data.update({'preview': str(image)})
-    #     return super().create(validated_data)
+        return super().create(validated_data)
 
     class Meta:
         model = News
@@ -33,36 +50,35 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    image_field = serializers.ImageField(write_only=True, required=True)
     
     def create(self, validated_data):
-        image = validated_data.pop('image_field')
-        # сделать тут систему загрузки изображения на яндекс
-        validated_data.update({"image_link": image})
+        input_image = validated_data.pop("image")
+        file = save_image(input_image=input_image, title=validated_data.get('title'))
+        validated_data.update({"image": file})
+
         return super().create(validated_data)
 
     class Meta:
         model = Image
-        fields = ["id", "title", "image_link", "created_at", "image_field"]
-        read_only_fields = ["image_link", "created_at"]
+        fields = ["id", "title", "image", "created_at"]
+        read_only_fields = ["created_at"]
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True, read_only=True)
     category_choose = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
-        source='category',
+        source="category",
         many=True,
         write_only=True
     )
-    # preview_field = serializers.ImageField(write_only=True, required=True)
 
-    # def create(self, validated_data):
-    #     image = validated_data.pop('preview_field')
-    #     # сделать тут систему загрузки изображения на яндекс
+    def create(self, validated_data):
+        input_image = validated_data.pop("preview")
+        file = save_image(input_image=input_image, title=validated_data.get('title'))
+        validated_data["preview"] = file
 
-    #     validated_data.update({'preview': str(image)})
-    #     return super().create(validated_data)
+        return super().create(validated_data)
 
     class Meta:
         model = Article

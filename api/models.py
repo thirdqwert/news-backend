@@ -52,10 +52,11 @@ class Article(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название изображение")
-    image = models.ImageField(upload_to="allImages",verbose_name="Изображения")
+    image = models.ImageField(upload_to="allImages", default=None, verbose_name="Изображения")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
 
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
+        ordering = ["-created_at"]
