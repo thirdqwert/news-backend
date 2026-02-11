@@ -10,19 +10,19 @@ class NewsSerializer(serializers.ModelSerializer):
         many=True,
         write_only=True
     )
-    preview_field = serializers.ImageField(write_only=True, required=True)
+    # preview_field = serializers.ImageField(write_only=True, required=True)
 
-    def create(self, validated_data):
-        image = validated_data.pop('preview_field')
-        # сделать тут систему загрузки изображения на яндекс
+    # def create(self, validated_data):
+    #     image = validated_data.pop('preview_field')
+    #     # сделать тут систему загрузки изображения на яндекс
 
-        validated_data.update({'preview': str(image)})
-        return super().create(validated_data)
+    #     validated_data.update({'preview': str(image)})
+    #     return super().create(validated_data)
 
     class Meta:
         model = News
-        fields = ["id", "title", "category", "desc", "content", "news_views", "preview", "created_at", "category_choose", "preview_field"]
-        read_only_fields = ["news_views", "created_at", "preview"]
+        fields = ["id", "title", "short_title", "category", "desc", "content", "news_views", "preview", "created_at", "category_choose",]
+        read_only_fields = ["news_views", "created_at",]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -55,16 +55,16 @@ class ArticleSerializer(serializers.ModelSerializer):
         many=True,
         write_only=True
     )
-    preview_field = serializers.ImageField(write_only=True, required=True)
+    # preview_field = serializers.ImageField(write_only=True, required=True)
 
-    def create(self, validated_data):
-        image = validated_data.pop('preview_field')
-        # сделать тут систему загрузки изображения на яндекс
+    # def create(self, validated_data):
+    #     image = validated_data.pop('preview_field')
+    #     # сделать тут систему загрузки изображения на яндекс
 
-        validated_data.update({'preview': str(image)})
-        return super().create(validated_data)
+    #     validated_data.update({'preview': str(image)})
+    #     return super().create(validated_data)
 
     class Meta:
         model = Article
-        fields = ["id", "title", "category", "desc", "content", "article_views", "preview", "created_at", "category_choose", "preview_field"]
-        read_only_fields = ["article_views", "created_at", "preview"]
+        fields = ["id", "title", "short_title", "category", "desc", "content", "article_views", "preview", "created_at", "category_choose"]
+        read_only_fields = ["article_views", "created_at"]

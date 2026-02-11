@@ -20,11 +20,12 @@ class Category(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название новости")
+    short_title = models.CharField(max_length=50, default="", verbose_name="Краткое название новости")
     category = models.ManyToManyField(Category, verbose_name="Категория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     news_views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
-    preview = models.CharField(verbose_name="Превью изображение")
+    preview = models.ImageField(upload_to="news/", verbose_name="Превью изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
     class Meta:
@@ -34,11 +35,12 @@ class News(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название статьи")
+    short_title = models.CharField(max_length=50, default="", verbose_name="Краткое название статьи")
     category = models.ManyToManyField(Category, verbose_name="Категория статьи")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     article_views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
-    preview = models.CharField(verbose_name="Превью изображение")
+    preview = models.ImageField(upload_to="articles/", verbose_name="Превью изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
     
     class Meta:
@@ -48,7 +50,7 @@ class Article(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название изображение")
-    image_link = models.CharField(verbose_name="Ссылка на изображения")
+    image = models.ImageField(upload_to="allImages",verbose_name="Изображения")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
 

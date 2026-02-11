@@ -14,9 +14,16 @@ class NewsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         orderBy = self.request.query_params.get('orderBy')
+        categoriesBy = self.request.query_params.get('categoryBy')
         queryset = News.objects.all()
-        if orderBy is not None:
-            queryset = News.objects.all().order_by(orderBy)
+
+        if categoriesBy is not None:
+            categoriesBy = categoriesBy.split('&')
+            for category in categoriesBy:
+                queryset = queryset.filter(category__title=category)
+
+        queryset = queryset.order_by(orderBy or '-created_at')
+
         return queryset
 
     def get_permissions(self):
@@ -63,9 +70,16 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         orderBy = self.request.query_params.get('orderBy')
+        categoriesBy = self.request.query_params.get('categoryBy')
         queryset = Article.objects.all()
-        if orderBy is not None:
-            queryset = Article.objects.all().order_by(orderBy)
+
+        if categoriesBy is not None:
+            categoriesBy = categoriesBy.split('&')
+            for category in categoriesBy:
+                queryset = queryset.filter(category__title=category)
+
+        queryset = queryset.order_by(orderBy or '-created_at')
+
         return queryset
 
     def get_permissions(self):
