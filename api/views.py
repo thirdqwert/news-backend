@@ -37,6 +37,12 @@ class CategoryList(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
+class CategoryCreate(generics.CreateAPIView):
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAdminUser]
+
+
+
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
     permission_classes = [permissions.IsAdminUser]
@@ -73,5 +79,4 @@ class ArticleViewSet(viewsets.ModelViewSet):
         news.save()
         serializer = self.get_serializer(news)
         return response.Response(serializer.data)
-    
     

@@ -11,7 +11,7 @@ router.register('articles', viewset=views.ArticleViewSet, basename='article')
 
 patterns = [
     path('categories/', views.CategoryList.as_view(), name='categories_list'),
-
+    path('categories/create', views.CategoryCreate.as_view(), name='categories_create'),
 ]
 
 urlpatterns = patterns + router.urls + urls_swagger
