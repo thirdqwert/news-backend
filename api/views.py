@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics, permissions, pagination, response
-from .models import Category, News, Image, Article
-from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer
+from .models import Category, News, Image, Article, Audio
+from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer
 
 
 class Pagination(pagination.PageNumberPagination):
@@ -88,3 +88,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(news)
         return response.Response(serializer.data)
     
+
+
+class AudioViewSet(viewsets.ModelViewSet):
+    queryset = Audio.objects.all()
+    serializer_class = AudioSerializer
+    permission_classes = [permissions.IsAdminUser]
+    pagination_class = Pagination

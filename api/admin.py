@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Category, Image, Article
+from .models import News, Category, Image, Article, Audio
 
 
 @admin.register(Category)
@@ -33,6 +33,15 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
+    list_display = ["pk", "title", "created_at"]
+    list_display_links = ["pk"]
+    ordering = ["pk"]
+    list_per_page = 36
+    search_fields = ["title"]
+
+
+@admin.register(Audio)
+class AudioAdmin(admin.ModelAdmin):
     list_display = ["pk", "title", "created_at"]
     list_display_links = ["pk"]
     ordering = ["pk"]

@@ -2,7 +2,7 @@ import io
 import pillow_avif
 from datetime import datetime
 from rest_framework import serializers
-from .models import Category, News, Image, Article
+from .models import Category, News, Image, Article, Audio
 from PIL import Image as Pillow_Image
 from django.core.files.base import ContentFile
 
@@ -84,3 +84,11 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = ["id", "title", "short_title", "category", "desc", "content", "article_views", "preview", "created_at", "category_choose"]
         read_only_fields = ["article_views", "created_at"]
+
+
+class AudioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Audio
+        fields = ["id", "title", "audio", "created_at"]
+        read_only_fields = ["created_at"]

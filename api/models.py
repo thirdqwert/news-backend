@@ -8,7 +8,8 @@ from django.db import models
 # сисема rate limit
 # система голосовый сообщений
 # система конфериацмй изображений в afiv
-
+# система отправки всех фото и статей полностю если надо
+# возможно redis 
 class Category(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название категории")
 
@@ -59,4 +60,15 @@ class Image(models.Model):
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
+        ordering = ["-created_at"]
+
+
+class Audio(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название аудио")
+    audio = models.FileField(upload_to="allAudio", default=None, verbose_name="Аудио")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+
+    class Meta:
+        verbose_name = "Аудио"
+        verbose_name_plural = "Аудио"
         ordering = ["-created_at"]

@@ -17,7 +17,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# тут нужно добавить ip и domen
+
+
+
+# тут нужно добавить ip и domen в котором будет принимать 
+# потом добавь CORPS
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -127,7 +132,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/min'
+        'anon': '50/min'
     },
 }
 
