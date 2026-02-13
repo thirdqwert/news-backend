@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics, permissions, pagination, response
-from .models import Category, News, Image, Article, Audio
-from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer
+from .models import Category, News, Image, Article, Audio, Album
+from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer, AlbumSerializer
 
 
 class Pagination(pagination.PageNumberPagination):
@@ -88,6 +88,37 @@ class ArticleViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(news)
         return response.Response(serializer.data)
     
+    
+class AlbumViewSet(viewsets.ModelViewSet):
+    serializer_class = AlbumSerializer
+    permission_classes = [permissions.IsAdminUser]
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        orderBy = self.request.query_params.get('orderBy')
+        categoriesBy = self.request.query_params.get('categoryBy')
+        queryset = Album.objects.all()
+
+        if categoriesBy is not None:
+            categoriesBy = categoriesBy.split('&')
+            for category in categoriesBy:
+                queryset = queryset.filter(category__title=category)
+
+        queryset = queryset.order_by(orderBy or '-created_at')
+
+        return queryset
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return super().get_permissions()
+
+    def retrieve(self, request, *args, **kwargs):
+        news = self.get_object()
+        news.article_views = news.article_views + 1
+        news.save()
+        serializer = self.get_serializer(news)
+        return response.Response(serializer.data)
 
 
 class AudioViewSet(viewsets.ModelViewSet):

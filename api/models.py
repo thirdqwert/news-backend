@@ -51,6 +51,22 @@ class Article(models.Model):
         verbose_name_plural = "Статьи"
 
 
+class Album(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название альбома")
+    short_title = models.CharField(max_length=50, default="", verbose_name="Краткое название альбома")
+    category = models.ManyToManyField(Category, verbose_name="Категория альбома")
+    desc = models.TextField(verbose_name="Ознакомительное описание")
+    content = models.TextField(verbose_name="Html код для страницы")
+    album_views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")
+    preview = models.ImageField(upload_to="album/", verbose_name="Превью изображение")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+
+    class Meta:
+        verbose_name = "Альбом"
+        verbose_name_plural = "Альбомы"
+
+
+
 class Image(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название изображение")
     image = models.ImageField(upload_to="allImages", default=None, verbose_name="Изображения")
