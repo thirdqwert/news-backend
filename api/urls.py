@@ -1,4 +1,5 @@
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .swagger_settings import urlpatterns as urls_swagger
 from . import views
 from django.urls import path
@@ -12,6 +13,7 @@ router.register("audios", viewset=views.AudioViewSet, basename="audios")
 router.register("albums", viewset=views.AlbumViewSet, basename="albums")
 
 patterns = [
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path("categories/", views.CategoryList.as_view(), name="categories_list"),
     path("categories/create", views.CategoryCreate.as_view(), name="categories_create"),
 ]
