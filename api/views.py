@@ -30,6 +30,15 @@ class NewsViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]
         return super().get_permissions()
+    
+    def paginate_queryset(self, queryset):
+        user = self.request.user
+
+        # если запрос делат админ то вренуть весь список без пагинации
+        if user.is_staff or user.is_superuser:
+            return None
+        return super().paginate_queryset(queryset)
+
 
     def retrieve(self, request, *args, **kwargs):
         news = self.get_object()
@@ -80,6 +89,14 @@ class ArticleViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]
         return super().get_permissions()
+    
+    def paginate_queryset(self, queryset):
+        user = self.request.user
+
+        # если запрос делат админ то вренуть весь список без пагинации
+        if user.is_staff or user.is_superuser:
+            return None
+        return super().paginate_queryset(queryset)
 
     def retrieve(self, request, *args, **kwargs):
         news = self.get_object()
@@ -113,6 +130,14 @@ class AlbumViewSet(viewsets.ModelViewSet):
             return [permissions.AllowAny()]
         return super().get_permissions()
 
+    def paginate_queryset(self, queryset):
+        user = self.request.user
+
+        # если запрос делат админ то вренуть весь список без пагинации
+        if user.is_staff or user.is_superuser:
+            return None
+        return super().paginate_queryset(queryset)
+    
     def retrieve(self, request, *args, **kwargs):
         news = self.get_object()
         news.article_views = news.article_views + 1
