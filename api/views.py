@@ -37,7 +37,9 @@ class NewsViewSet(viewsets.ModelViewSet):
 
         # если запрос делат админ то вренуть весь список без пагинации
         if user.is_staff or user.is_superuser:
+            print(11111111111111111111111111111111111111111111)
             return None
+        print(222222222222222222222222222222222222222222222222)
         return super().paginate_queryset(queryset)
 
 
