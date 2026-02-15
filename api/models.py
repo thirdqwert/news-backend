@@ -27,7 +27,7 @@ class News(models.Model):
     category = models.ManyToManyField(Category, verbose_name="Категория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
-    news_views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
+    views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
     preview = models.ImageField(upload_to="news/", verbose_name="Превью изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
@@ -42,7 +42,7 @@ class Article(models.Model):
     category = models.ManyToManyField(Category, verbose_name="Категория статьи")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
-    article_views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
+    views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
     preview = models.ImageField(upload_to="articles/", verbose_name="Превью изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
     
@@ -57,7 +57,7 @@ class Album(models.Model):
     category = models.ManyToManyField(Category, verbose_name="Категория альбома")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
-    album_views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")
+    views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")
     preview = models.ImageField(upload_to="album/", verbose_name="Превью изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
@@ -69,7 +69,7 @@ class Album(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название изображение")
-    image = models.ImageField(upload_to="allImages", default=None, verbose_name="Изображения")
+    image = models.ImageField(upload_to="allImages", verbose_name="Изображения")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
 
@@ -81,7 +81,7 @@ class Image(models.Model):
 
 class Audio(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название аудио")
-    audio = models.FileField(upload_to="allAudio", default=None, verbose_name="Аудио")
+    audio = models.FileField(upload_to="allAudio", verbose_name="Аудио")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
     class Meta:

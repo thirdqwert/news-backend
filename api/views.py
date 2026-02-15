@@ -1,11 +1,10 @@
-
 from rest_framework import viewsets, generics, permissions, pagination, response
 from .models import Category, News, Image, Article, Audio, Album
 from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer, AlbumSerializer
-
+from .utils import filter_data
 
 class Pagination(pagination.PageNumberPagination):
-    page_size = 36
+    page_size = 24
 
 
 class NewsViewSet(viewsets.ModelViewSet):
@@ -14,18 +13,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     pagination_class = Pagination
 
     def get_queryset(self):
-        orderBy = self.request.query_params.get('orderBy')
-        categoriesBy = self.request.query_params.get('categoryBy')
-        queryset = News.objects.all()
-
-        if categoriesBy is not None:
-            categoriesBy = categoriesBy.split('&')
-            for category in categoriesBy:
-                queryset = queryset.filter(category__title=category)
-
-        queryset = queryset.order_by(orderBy or '-created_at')
-
-        return queryset
+        return filter_data(self.request, News.objects.all())
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
@@ -44,7 +32,7 @@ class NewsViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         news = self.get_object()
-        news.news_views = news.news_views + 1
+        news.views = news.views + 1
         news.save()
         serializer = self.get_serializer(news)
         return response.Response(serializer.data)
@@ -74,18 +62,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     pagination_class = Pagination
 
     def get_queryset(self):
-        orderBy = self.request.query_params.get('orderBy')
-        categoriesBy = self.request.query_params.get('categoryBy')
-        queryset = Article.objects.all()
-
-        if categoriesBy is not None:
-            categoriesBy = categoriesBy.split('&')
-            for category in categoriesBy:
-                queryset = queryset.filter(category__title=category)
-
-        queryset = queryset.order_by(orderBy or '-created_at')
-
-        return queryset
+        return filter_data(self.request, Article.objects.all())
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
@@ -102,7 +79,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         news = self.get_object()
-        news.article_views = news.article_views + 1
+        news.views = news.views + 1
         news.save()
         serializer = self.get_serializer(news)
         return response.Response(serializer.data)
@@ -114,18 +91,7 @@ class AlbumViewSet(viewsets.ModelViewSet):
     pagination_class = Pagination
 
     def get_queryset(self):
-        orderBy = self.request.query_params.get('orderBy')
-        categoriesBy = self.request.query_params.get('categoryBy')
-        queryset = Album.objects.all()
-
-        if categoriesBy is not None:
-            categoriesBy = categoriesBy.split('&')
-            for category in categoriesBy:
-                queryset = queryset.filter(category__title=category)
-
-        queryset = queryset.order_by(orderBy or '-created_at')
-
-        return queryset
+        return filter_data(self.request, Album.objects.all())
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
@@ -142,7 +108,7 @@ class AlbumViewSet(viewsets.ModelViewSet):
     
     def retrieve(self, request, *args, **kwargs):
         news = self.get_object()
-        news.article_views = news.article_views + 1
+        news.views = news.views + 1
         news.save()
         serializer = self.get_serializer(news)
         return response.Response(serializer.data)

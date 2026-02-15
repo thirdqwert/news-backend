@@ -1,23 +1,6 @@
-import io
-import pillow_avif
-from datetime import datetime
 from rest_framework import serializers
 from .models import Category, News, Image, Article, Audio, Album
-from PIL import Image as Pillow_Image
-from django.core.files.base import ContentFile
-
-
-
-def save_image(input_image, title):
-    # Функция конвертирование и сохранение изображений 
-    img = Pillow_Image.open(input_image)
-    buffer = io.BytesIO()
-    img.save(buffer, format="AVIF", quality=60)
-    file_name = f"{title + str(datetime.now())}.avif"
-    django_file = ContentFile(buffer.getvalue(), name=file_name)
-
-    return django_file
-
+from .utils import save_image
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -35,11 +18,20 @@ class NewsSerializer(serializers.ModelSerializer):
         validated_data.update({ "preview": file })
 
         return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        input_image = validated_data.pop("preview", None)
+
+        if input_image is not None:
+            file = save_image(input_image, validated_data.get('title'))
+            validated_data.update({ "preview": file })
+
+        return super().update(instance, validated_data)
 
     class Meta:
         model = News
-        fields = ["id", "title", "short_title", "category", "desc", "content", "news_views", "preview", "created_at", "category_choose",]
-        read_only_fields = ["news_views", "created_at",]
+        fields = ["id", "title", "short_title", "category", "desc", "content", "views", "preview", "created_at", "category_choose",]
+        read_only_fields = ["views", "created_at",]
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -57,11 +49,20 @@ class ArticleSerializer(serializers.ModelSerializer):
         validated_data["preview"] = file
 
         return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        input_image = validated_data.pop("preview", None)
+        
+        if input_image is not None:
+            file = save_image(input_image, validated_data.get('title'))
+            validated_data.update({ "preview": file })
+
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Article
-        fields = ["id", "title", "short_title", "category", "desc", "content", "article_views", "preview", "created_at", "category_choose"]
-        read_only_fields = ["article_views", "created_at"]
+        fields = ["id", "title", "short_title", "category", "desc", "content", "views", "preview", "created_at", "category_choose"]
+        read_only_fields = ["views", "created_at"]
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -79,11 +80,20 @@ class AlbumSerializer(serializers.ModelSerializer):
         validated_data["preview"] = file
 
         return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        input_image = validated_data.pop("preview", None)
+        
+        if input_image is not None:
+            file = save_image(input_image, validated_data.get('title'))
+            validated_data.update({ "preview": file })
+
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Album
-        fields = ["id", "title", "short_title", "category", "desc", "content", "album_views", "preview", "created_at", "category_choose"]
-        read_only_fields = ["album_views", "created_at"]
+        fields = ["id", "title", "short_title", "category", "desc", "content", "views", "preview", "created_at", "category_choose"]
+        read_only_fields = ["views", "created_at"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -101,6 +111,15 @@ class ImageSerializer(serializers.ModelSerializer):
         validated_data.update({"image": file})
 
         return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        input_image = validated_data.pop("preview", None)
+        
+        if input_image is not None:
+            file = save_image(input_image, validated_data.get('title'))
+            validated_data.update({ "preview": file })
+
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Image
