@@ -4,7 +4,7 @@ from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Ar
 from .utils import filter_data
 
 class Pagination(pagination.PageNumberPagination):
-    page_size = 24
+    page_size = 12
 
 
 class NewsViewSet(viewsets.ModelViewSet):
