@@ -11,12 +11,12 @@ class NewsSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
-    # subcategory = serializers.StringRelatedField(read_only=True)
-    # subcategory_choose = serializers.PrimaryKeyRelatedField(
-    #     queryset=Subcategory.objects.all(),
-    #     source="subcategory",
-    #     write_only=True
-    # )
+    subcategory = serializers.StringRelatedField(read_only=True)
+    subcategory_choose = serializers.PrimaryKeyRelatedField(
+        queryset=Subcategory.objects.all(),
+        source="subcategory",
+        write_only=True
+    )
 
     def create(self, validated_data):
         input_image = validated_data.pop("preview")

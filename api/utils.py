@@ -19,16 +19,18 @@ def save_image(input_image, title):
 
 def filter_data(request, queryset):
         orderBy = request.query_params.get('orderBy')
-        categoriesBy = request.query_params.get('categoryBy')
+        categoryBy = request.query_params.get('categoryBy')
+        subcategoriesBy = request.query_params.get('subcategoriesBy')
         searchBy = request.query_params.get('searchBy')
 
         if searchBy is not None:
             queryset = queryset.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy))
 
-        if categoriesBy is not None:
-            categoriesBy = categoriesBy.split('&')
-            for category in categoriesBy:
-                queryset = queryset.filter(category__title=category)
+        if categoryBy is not None:
+            queryset = queryset.filter(category__title=categoryBy)
+
+        if subcategoriesBy is not None:
+            queryset = queryset.filter(subcategory__title=subcategoriesBy)
 
         queryset = queryset.order_by(orderBy or '-created_at')
 
