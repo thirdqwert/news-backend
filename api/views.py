@@ -1,6 +1,7 @@
 from rest_framework import viewsets, generics, permissions, pagination, response
+from django.db.models import Q
 from .models import Category, News, Image, Article, Audio, Album
-from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer, AlbumSerializer
+from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer, AlbumSerializer, SearchResultSerializer
 from .utils import filter_data
 
 class Pagination(pagination.PageNumberPagination):
@@ -40,6 +41,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()
+    permission_classes = [permissions.AllowAny]
     serializer_class = CategorySerializer
 
 
@@ -119,3 +121,20 @@ class AudioViewSet(viewsets.ModelViewSet):
     serializer_class = AudioSerializer
     permission_classes = [permissions.IsAdminUser]
     pagination_class = Pagination
+
+
+class SearchList(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = SearchResultSerializer
+    pagination_class = Pagination
+    
+    def get_queryset(self):
+        fields = ["title", "short_title", "desc", "content", "views","preview", "created_at"]
+        searchBy = self.request.query_params.get("searchBy", "")
+        news_queryset = News.objects.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy)).values(*fields)
+        article_queryset = Article.objects.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy)).values(*fields)
+        album_queryset = Album.objects.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy)).values(*fields)
+        queryset = news_queryset.union(article_queryset, album_queryset)
+        queryset.order_by("-created_at")
+        print(queryset)
+        return queryset

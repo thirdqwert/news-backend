@@ -133,3 +133,13 @@ class AudioSerializer(serializers.ModelSerializer):
         model = Audio
         fields = ["id", "title", "audio", "created_at"]
         read_only_fields = ["created_at"]
+
+
+class SearchResultSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    short_title = serializers.CharField()
+    desc = serializers.CharField()
+    content = serializers.CharField()
+    views = serializers.IntegerField()
+    preview = serializers.ImageField()
+    created_at = serializers.DateTimeField()

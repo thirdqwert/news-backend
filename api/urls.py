@@ -16,6 +16,7 @@ patterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path("categories/", views.CategoryList.as_view(), name="categories_list"),
     path("categories/create", views.CategoryCreate.as_view(), name="categories_create"),
+    path("search/", views.SearchList.as_view(), name="search_list")
 ]
 
 urlpatterns = patterns + router.urls + urls_swagger

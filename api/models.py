@@ -23,7 +23,7 @@ class Category(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название новости")
-    short_title = models.CharField(max_length=50, default="", verbose_name="Краткое название новости")
+    short_title = models.CharField(max_length=50, verbose_name="Краткое название новости")
     category = models.ManyToManyField(Category, verbose_name="Категория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
@@ -38,7 +38,7 @@ class News(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название статьи")
-    short_title = models.CharField(max_length=50, default="", verbose_name="Краткое название статьи")
+    short_title = models.CharField(max_length=50, verbose_name="Краткое название статьи")
     category = models.ManyToManyField(Category, verbose_name="Категория статьи")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
@@ -53,7 +53,7 @@ class Article(models.Model):
 
 class Album(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название альбома")
-    short_title = models.CharField(max_length=50, default="", verbose_name="Краткое название альбома")
+    short_title = models.CharField(max_length=50, verbose_name="Краткое название альбома")
     category = models.ManyToManyField(Category, verbose_name="Категория альбома")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
