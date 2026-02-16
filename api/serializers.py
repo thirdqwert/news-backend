@@ -1,16 +1,22 @@
 from rest_framework import serializers
-from .models import Category, News, Image, Article, Audio, Album
+from .models import Category, Subcategory, News, Image, Article, Audio, Album
 from .utils import save_image
 
 
 class NewsSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField(many=True, read_only=True)
+    category = serializers.StringRelatedField(read_only=True)
     category_choose = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source="category",
-        many=True,
         write_only=True
     )
+
+    # subcategory = serializers.StringRelatedField(read_only=True)
+    # subcategory_choose = serializers.PrimaryKeyRelatedField(
+    #     queryset=Subcategory.objects.all(),
+    #     source="subcategory",
+    #     write_only=True
+    # )
 
     def create(self, validated_data):
         input_image = validated_data.pop("preview")
@@ -30,16 +36,22 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ["id", "title", "short_title", "category", "desc", "content", "views", "preview", "created_at", "category_choose",]
+        fields = ["id", "title", "short_title", "category", "subcategory", "desc", "content", "views", "preview", "created_at", "category_choose", "subcategory_choose"]
         read_only_fields = ["views", "created_at",]
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField(many=True, read_only=True)
+    category = serializers.StringRelatedField(read_only=True)
     category_choose = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source="category",
-        many=True,
+        write_only=True
+    )
+
+    subcategory = serializers.StringRelatedField(read_only=True)
+    subcategory_choose = serializers.PrimaryKeyRelatedField(
+        queryset=Subcategory.objects.all(),
+        source="subcategory",
         write_only=True
     )
 
@@ -61,16 +73,22 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ["id", "title", "short_title", "category", "desc", "content", "views", "preview", "created_at", "category_choose"]
+        fields = ["id", "title", "short_title", "category", "subcategory", "desc", "content", "views", "preview", "created_at", "category_choose", "subcategory_choose"]
         read_only_fields = ["views", "created_at"]
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField(many=True, read_only=True)
+    category = serializers.StringRelatedField(read_only=True)
     category_choose = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source="category",
-        many=True,
+        write_only=True
+    )
+    
+    subcategory = serializers.StringRelatedField(read_only=True)
+    subcategory_choose = serializers.PrimaryKeyRelatedField(
+        queryset=Subcategory.objects.all(),
+        source="subcategory",
         write_only=True
     )
 
@@ -92,7 +110,7 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["id", "title", "short_title", "category", "desc", "content", "views", "preview", "created_at", "category_choose"]
+        fields = ["id", "title", "short_title", "category", "subcategory", "desc", "content", "views", "preview", "created_at", "category_choose", "subcategory_choose"]
         read_only_fields = ["views", "created_at"]
 
 

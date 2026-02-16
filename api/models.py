@@ -19,12 +19,25 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class Subcategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория подкатегории")
+    title = models.CharField(max_length=200, verbose_name="Название подкатегории")
+
+    class Meta:
+        verbose_name = "Подкатегория"
+        verbose_name_plural = "Подкатегории"
+
+    def __str__(self):
+        return self.title
 
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название новости")
     short_title = models.CharField(max_length=50, verbose_name="Краткое название новости")
-    category = models.ManyToManyField(Category, verbose_name="Категория новости")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория новости")
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
@@ -39,7 +52,8 @@ class News(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название статьи")
     short_title = models.CharField(max_length=50, verbose_name="Краткое название статьи")
-    category = models.ManyToManyField(Category, verbose_name="Категория статьи")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория статьи")
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
@@ -54,7 +68,8 @@ class Article(models.Model):
 class Album(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название альбома")
     short_title = models.CharField(max_length=50, verbose_name="Краткое название альбома")
-    category = models.ManyToManyField(Category, verbose_name="Категория альбома")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория альбома")
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")
