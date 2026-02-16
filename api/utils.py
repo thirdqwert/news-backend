@@ -20,7 +20,7 @@ def save_image(input_image, title):
 def filter_data(request, queryset):
         orderBy = request.query_params.get('orderBy')
         categoryBy = request.query_params.get('categoryBy')
-        subcategoriesBy = request.query_params.get('subcategoriesBy')
+        subcategoryBy = request.query_params.get('subcategoryBy')
         searchBy = request.query_params.get('searchBy')
 
         if searchBy is not None:
@@ -29,8 +29,8 @@ def filter_data(request, queryset):
         if categoryBy is not None:
             queryset = queryset.filter(category__title=categoryBy)
 
-        if subcategoriesBy is not None:
-            queryset = queryset.filter(subcategory__title=subcategoriesBy)
+        if subcategoryBy is not None:
+            queryset = queryset.filter(subcategory__title=subcategoryBy)
 
         queryset = queryset.order_by(orderBy or '-created_at')
 
