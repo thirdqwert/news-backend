@@ -23,7 +23,7 @@ class Category(models.Model):
     
 
 class Subcategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория подкатегории")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="subcategories", verbose_name="Категория подкатегории")
     title = models.CharField(verbose_name="Название подкатегории")
     slug = models.SlugField(default='', verbose_name="Slug название")
     

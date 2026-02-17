@@ -11,7 +11,7 @@ def save_image(input_image, title):
     img = Pillow_Image.open(input_image)
     buffer = io.BytesIO()
     img.save(buffer, format="AVIF", quality=60)
-    file_name = f"{title + str(datetime.now())}.avif"
+    file_name = f"{str(datetime.now())}.avif"
     django_file = ContentFile(buffer.getvalue(), name=file_name)
 
     return django_file

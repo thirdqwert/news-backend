@@ -15,7 +15,8 @@ class NewsSerializer(serializers.ModelSerializer):
     subcategory_choose = serializers.PrimaryKeyRelatedField(
         queryset=Subcategory.objects.all(),
         source="subcategory",
-        write_only=True
+        write_only=True,
+        required=False
     )
 
     def create(self, validated_data):
@@ -52,7 +53,8 @@ class ArticleSerializer(serializers.ModelSerializer):
     subcategory_choose = serializers.PrimaryKeyRelatedField(
         queryset=Subcategory.objects.all(),
         source="subcategory",
-        write_only=True
+        write_only=True,
+        required=False
     )
 
     def create(self, validated_data):
@@ -89,7 +91,8 @@ class AlbumSerializer(serializers.ModelSerializer):
     subcategory_choose = serializers.PrimaryKeyRelatedField(
         queryset=Subcategory.objects.all(),
         source="subcategory",
-        write_only=True
+        write_only=True,
+        required=False
     )
 
     def create(self, validated_data):
@@ -113,19 +116,20 @@ class AlbumSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "short_title", "category", "subcategory", "desc", "content", "views", "preview", "created_at", "category_choose", "subcategory_choose"]
         read_only_fields = ["views", "created_at"]
 
-# Доделай subcategory и удали category create
-class CategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Category
-        fields = ["id", "title", "slug"]
-
 
 class SubcategorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Subcategory
         fields = ["id", "title","category", "slug"]
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    subcategories = SubcategorySerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = ["id", "title", "slug", "subcategories"]
 
 
 class ImageSerializer(serializers.ModelSerializer):
