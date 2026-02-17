@@ -12,6 +12,7 @@ from django.db import models
 # возможно redis 
 class Category(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название категории")
+    slug = models.SlugField(default='', verbose_name="Slug название")
 
     class Meta:
         verbose_name = "Категория"
@@ -23,8 +24,9 @@ class Category(models.Model):
 
 class Subcategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория подкатегории")
-    title = models.CharField(max_length=200, verbose_name="Название подкатегории")
-
+    title = models.CharField(verbose_name="Название подкатегории")
+    slug = models.SlugField(default='', verbose_name="Slug название")
+    
     class Meta:
         verbose_name = "Подкатегория"
         verbose_name_plural = "Подкатегории"
@@ -37,7 +39,7 @@ class News(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название новости")
     short_title = models.CharField(max_length=50, verbose_name="Краткое название новости")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория новости")
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
+    subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
@@ -53,7 +55,7 @@ class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название статьи")
     short_title = models.CharField(max_length=50, verbose_name="Краткое название статьи")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория статьи")
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
+    subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
@@ -69,7 +71,7 @@ class Album(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название альбома")
     short_title = models.CharField(max_length=50, verbose_name="Краткое название альбома")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория альбома")
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
+    subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")

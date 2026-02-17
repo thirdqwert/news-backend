@@ -6,6 +6,7 @@ from .models import News, Category, Subcategory, Image, Article, Audio, Album
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["pk", "title"]
     list_display_links = ["pk"]
+    prepopulated_fields = {'slug': ['title']}
     ordering = ["pk"]
     list_per_page = 36
     search_fields = ["title"]
@@ -15,6 +16,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class SubcategoryAdmin(admin.ModelAdmin):
     list_display = ["pk", "title"]
     list_display_links = ["pk"]
+    prepopulated_fields = {'slug': ['title']}
     ordering = ["pk"]
     list_per_page = 36
     search_fields = ["title"]

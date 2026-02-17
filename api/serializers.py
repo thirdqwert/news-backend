@@ -113,12 +113,20 @@ class AlbumSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "short_title", "category", "subcategory", "desc", "content", "views", "preview", "created_at", "category_choose", "subcategory_choose"]
         read_only_fields = ["views", "created_at"]
 
-
+# Доделай subcategory и удали category create
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ["id", "title"]
+        fields = ["id", "title", "slug"]
+
+
+class SubcategorySerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField(read_only=True)
+    
+    class Meta:
+        model = Subcategory
+        fields = ["id", "title","category", "slug"]
 
 
 class ImageSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics, permissions, pagination, response
 from django.db.models import Q
-from .models import Category, News, Image, Article, Audio, Album
-from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer, AlbumSerializer, SearchResultSerializer
+from .models import Category, News, Image, Article, Audio, Album, Subcategory
+from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, Article, ArticleSerializer, AudioSerializer, AlbumSerializer, SearchResultSerializer, SubcategorySerializer
 from .utils import filter_data
 
 class Pagination(pagination.PageNumberPagination):
@@ -45,10 +45,10 @@ class CategoryList(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
-class CategoryCreate(generics.CreateAPIView):
-    serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUser]
-
+class SubcategoryList(generics.ListAPIView):
+    queryset = Subcategory.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = SubcategorySerializer
 
 
 class ImageViewSet(viewsets.ModelViewSet):

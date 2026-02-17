@@ -13,9 +13,9 @@ router.register("audios", viewset=views.AudioViewSet, basename="audios")
 router.register("albums", viewset=views.AlbumViewSet, basename="albums")
 
 patterns = [
-    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("categories/", views.CategoryList.as_view(), name="categories_list"),
-    path("categories/create", views.CategoryCreate.as_view(), name="categories_create"),
+    path("subcategories/", views.SubcategoryList.as_view(), name="subcategories_list"),
     path("search/", views.SearchList.as_view(), name="search_list")
 ]
 

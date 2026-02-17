@@ -25,12 +25,12 @@ def filter_data(request, queryset):
 
         if searchBy is not None:
             queryset = queryset.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy))
-
+        
         if categoryBy is not None:
-            queryset = queryset.filter(category__title=categoryBy)
+            queryset = queryset.filter(category__slug=categoryBy)
 
         if subcategoryBy is not None:
-            queryset = queryset.filter(subcategory__title=subcategoryBy)
+            queryset = queryset.filter(subcategory__slug=subcategoryBy)
 
         queryset = queryset.order_by(orderBy or '-created_at')
 
