@@ -122,7 +122,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField(read_only=True)
     
     class Meta:
         model = Subcategory
