@@ -8,9 +8,10 @@ from django.urls import path
 router = DefaultRouter()
 router.register("news", viewset=views.NewsViewSet, basename="news")
 router.register("images", viewset=views.ImageViewSet, basename="images")
-router.register("articles", viewset=views.ArticleViewSet, basename="article")
+# router.register("articles", viewset=views.ArticleViewSet, basename="article")
 router.register("audios", viewset=views.AudioViewSet, basename="audios")
-router.register("albums", viewset=views.AlbumViewSet, basename="albums")
+# router.register("albums", viewset=views.AlbumViewSet, basename="albums")
+router.register("reels", viewset=views.ReelViewSet, basename="reels")
 
 patterns = [
     path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

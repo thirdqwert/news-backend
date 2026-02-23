@@ -51,36 +51,36 @@ class News(models.Model):
         verbose_name_plural = "Новости"
 
 
-class Article(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название статьи")
-    short_title = models.CharField(max_length=50, verbose_name="Краткое название статьи")
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория статьи")
-    subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
-    desc = models.TextField(verbose_name="Ознакомительное описание")
-    content = models.TextField(verbose_name="Html код для страницы")
-    views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
-    preview = models.ImageField(upload_to="articles/", verbose_name="Превью изображение")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+# class Article(models.Model):
+#     title = models.CharField(max_length=200, verbose_name="Название статьи")
+#     short_title = models.CharField(max_length=50, verbose_name="Краткое название статьи")
+#     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория статьи")
+#     subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
+#     desc = models.TextField(verbose_name="Ознакомительное описание")
+#     content = models.TextField(verbose_name="Html код для страницы")
+#     views = models.IntegerField(default=0, verbose_name="Количество просмотров статьи")
+#     preview = models.ImageField(upload_to="articles/", verbose_name="Превью изображение")
+#     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
     
-    class Meta:
-        verbose_name = "Статья"
-        verbose_name_plural = "Статьи"
+#     class Meta:
+#         verbose_name = "Статья"
+#         verbose_name_plural = "Статьи"
 
 
-class Album(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название альбома")
-    short_title = models.CharField(max_length=50, verbose_name="Краткое название альбома")
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория альбома")
-    subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
-    desc = models.TextField(verbose_name="Ознакомительное описание")
-    content = models.TextField(verbose_name="Html код для страницы")
-    views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")
-    preview = models.ImageField(upload_to="album/", verbose_name="Превью изображение")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+# class Album(models.Model):
+#     title = models.CharField(max_length=200, verbose_name="Название альбома")
+#     short_title = models.CharField(max_length=50, verbose_name="Краткое название альбома")
+#     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория альбома")
+#     subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
+#     desc = models.TextField(verbose_name="Ознакомительное описание")
+#     content = models.TextField(verbose_name="Html код для страницы")
+#     views = models.IntegerField(default=0, verbose_name="Количество просмотров альбома")
+#     preview = models.ImageField(upload_to="album/", verbose_name="Превью изображение")
+#     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
-    class Meta:
-        verbose_name = "Альбом"
-        verbose_name_plural = "Альбомы"
+#     class Meta:
+#         verbose_name = "Альбом"
+#         verbose_name_plural = "Альбомы"
 
 
 
@@ -105,3 +105,14 @@ class Audio(models.Model):
         verbose_name = "Аудио"
         verbose_name_plural = "Аудио"
         ordering = ["-created_at"]
+
+
+class Reel(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название рилса")
+    image = models.ImageField(upload_to="reels", verbose_name="Превью рилса")
+    content = models.TextField(verbose_name="Втройка рилса")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки рилса на сайт")
+
+    class Meta:
+        verbose_name = "Рилс"
+        verbose_name_plural = "Рилс"

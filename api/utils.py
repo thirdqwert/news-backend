@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.core.files.base import ContentFile
 
 
-def save_image(input_image, title):
+def save_image(input_image):
     # Функция конвертирование и сохранение изображений 
     img = Pillow_Image.open(input_image)
     buffer = io.BytesIO()

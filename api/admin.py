@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Category, Subcategory, Image, Article, Audio, Album
+from .models import News, Category, Subcategory, Image, Audio, Reel
 
 
 @admin.register(Category)
@@ -41,24 +41,23 @@ class ImageAdmin(admin.ModelAdmin):
     search_fields = ["title"]
 
 
-@admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["pk", "title", "created_at"]
-    list_display_links = ["pk"]
-    ordering = ["pk"]
-    list_per_page = 36
-    search_fields = ["title"]
+# @admin.register(Article)
+# class ArticleAdmin(admin.ModelAdmin):
+#     list_display = ["pk", "title", "created_at"]
+#     list_display_links = ["pk"]
+#     ordering = ["pk"]
+#     list_per_page = 36
+#     search_fields = ["title"]
 
 
 
-@admin.register(Album)
-class AlbumAdmin(admin.ModelAdmin):
-    list_display = ["pk", "title", "created_at"]
-    list_display_links = ["pk"]
-    ordering = ["pk"]
-    list_per_page = 36
-    search_fields = ["title"]
-
+# @admin.register(Album)
+# class AlbumAdmin(admin.ModelAdmin):
+#     list_display = ["pk", "title", "created_at"]
+#     list_display_links = ["pk"]
+#     ordering = ["pk"]
+#     list_per_page = 36
+#     search_fields = ["title"]
 
 
 @admin.register(Audio)
@@ -68,4 +67,12 @@ class AudioAdmin(admin.ModelAdmin):
     ordering = ["pk"]
     list_per_page = 36
     search_fields = ["title"]
-    
+
+   
+@admin.register(Reel)
+class ReelsAdmin(admin.ModelAdmin):
+    list_display = ["pk", "title", "created_at"]
+    list_display_links = ["pk"]
+    ordering = ["pk"]
+    list_per_page = 36
+    search_fields = ["title"]
