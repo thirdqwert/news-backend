@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Subcategory, News, Image, Audio, Reel
+from .models import Category, Subcategory, News, Image, Audio, Reel, YouTubeVids
 from .utils import save_image
 
 
@@ -211,4 +211,28 @@ class ReelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reel
         fields = ["id", "title", "image", "content", "created_at"]
+        read_only_fields = ["created_at"]
+
+
+class YouTubeVidsSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        input_image = validated_data.pop("image")
+        file = save_image(input_image=input_image)
+        validated_data.update({"image": file})
+
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        input_image = validated_data.pop("image", None)
+        
+        if input_image is not None:
+            file = save_image(input_image)
+            validated_data.update({ "image": file })
+
+        return super().update(instance, validated_data)
+    
+    class Meta:
+        model = YouTubeVids
+        fields = ["id", "title", "image", "link", "created_at"]
         read_only_fields = ["created_at"]

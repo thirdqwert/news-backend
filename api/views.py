@@ -1,11 +1,14 @@
 from rest_framework import viewsets, generics, permissions, pagination, response
 from django.db.models import Q
-from .models import Category, News, Image, Audio, Subcategory, Reel
-from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, AudioSerializer, SubcategorySerializer, ReelSerializer
+from .models import Category, News, Image, Audio, Subcategory, Reel, YouTubeVids
+from .serializers import NewsSerializer, CategorySerializer, ImageSerializer, AudioSerializer, SubcategorySerializer, ReelSerializer, YouTubeVidsSerializer
 from .utils import filter_data
 
 class Pagination(pagination.PageNumberPagination):
     page_size = 12
+
+class BiggerPagination(pagination.PageNumberPagination):
+    page_size = 24
 
 
 class NewsViewSet(viewsets.ModelViewSet):
@@ -144,8 +147,28 @@ class SearchList(generics.ListAPIView):
 class ReelViewSet(viewsets.ModelViewSet):
     queryset = Reel.objects.all()
     serializer_class = ReelSerializer
-    pagination_class = Pagination
+    pagination_class = BiggerPagination
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return super().get_permissions()
+    
+    def paginate_queryset(self, queryset):
+        user = self.request.user
 
+        # если запрос делат админ то вренуть весь список без пагинации
+        if user.is_staff or user.is_superuser:
+            return None
+        
+        return super().paginate_queryset(queryset)
+
+
+class YouTubeVidsViewSet(viewsets.ModelViewSet):
+    queryset = YouTubeVids.objects.all()
+    serializer_class = YouTubeVidsSerializer
+    pagination_class = BiggerPagination
+    
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]

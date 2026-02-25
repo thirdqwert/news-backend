@@ -116,3 +116,16 @@ class Reel(models.Model):
     class Meta:
         verbose_name = "Рилс"
         verbose_name_plural = "Рилс"
+        ordering = ["-created_at"]
+
+
+class YouTubeVids(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название видио")
+    image = models.ImageField(upload_to="reels", verbose_name="Превью видио")
+    link = models.CharField(max_length=200, verbose_name="Сслыка на ютуб видео")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки видио на сайт")
+
+    class Meta:
+        verbose_name = "Ютуб видео"
+        verbose_name_plural = "Ютуб видео"
+        ordering = ["-created_at"]

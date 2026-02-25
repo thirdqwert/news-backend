@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Category, Subcategory, Image, Audio, Reel
+from .models import News, Category, Subcategory, Image, Audio, Reel, YouTubeVids
 
 
 @admin.register(Category)
@@ -71,6 +71,14 @@ class AudioAdmin(admin.ModelAdmin):
    
 @admin.register(Reel)
 class ReelsAdmin(admin.ModelAdmin):
+    list_display = ["pk", "title", "created_at"]
+    list_display_links = ["pk"]
+    ordering = ["pk"]
+    list_per_page = 36
+    search_fields = ["title"]
+
+@admin.register(YouTubeVids)
+class YouTubeVidsAdmin(admin.ModelAdmin):
     list_display = ["pk", "title", "created_at"]
     list_display_links = ["pk"]
     ordering = ["pk"]
