@@ -12,7 +12,7 @@ router.register("images", viewset=views.ImageViewSet, basename="images")
 router.register("audios", viewset=views.AudioViewSet, basename="audios")
 # router.register("albums", viewset=views.AlbumViewSet, basename="albums")
 router.register("reels", viewset=views.ReelViewSet, basename="reels")
-router.register("youbevids", viewset=views.YouTubeVidsViewSet, basename="youbevids")
+router.register("youtubevids", viewset=views.YouTubeVidsViewSet, basename="youtubevids")
 
 patterns = [
     path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

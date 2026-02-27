@@ -148,7 +148,8 @@ class ReelViewSet(viewsets.ModelViewSet):
     queryset = Reel.objects.all()
     serializer_class = ReelSerializer
     pagination_class = BiggerPagination
-    
+    permission_classes = [permissions.IsAdminUser]
+
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]
@@ -168,6 +169,7 @@ class YouTubeVidsViewSet(viewsets.ModelViewSet):
     queryset = YouTubeVids.objects.all()
     serializer_class = YouTubeVidsSerializer
     pagination_class = BiggerPagination
+    permission_classes = [permissions.IsAdminUser]
     
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
