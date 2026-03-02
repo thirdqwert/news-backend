@@ -11,7 +11,7 @@ from django.db import models
 # система отправки всех фото и статей полностю если надо
 # возможно redis 
 class Category(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название категории")
+    title = models.CharField(max_length=300, verbose_name="Название категории")
     slug = models.SlugField(default='', verbose_name="Slug название")
 
     class Meta:
@@ -36,16 +36,17 @@ class Subcategory(models.Model):
 
 
 class News(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название новости")
-    short_title = models.CharField(max_length=50, verbose_name="Краткое название новости")
+    title = models.CharField(max_length=300, verbose_name="Название новости")
+    short_title = models.CharField(max_length=300, verbose_name="Краткое название новости")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория новости")
     subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Подкатегория новости")
     desc = models.TextField(verbose_name="Ознакомительное описание")
     content = models.TextField(verbose_name="Html код для страницы")
     views = models.IntegerField(default=0, verbose_name="Количество просмотров новости")
-    preview = models.ImageField(upload_to="news/", verbose_name="Превью изображение")
+    preview = models.ImageField(upload_to="news/previews/", verbose_name="Превью изображение")
+    main_image = models.ImageField(upload_to="news/main/", verbose_name="Главное изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
-
+    
     class Meta:
         verbose_name = "Новость"
         verbose_name_plural = "Новости"
@@ -85,7 +86,7 @@ class News(models.Model):
 
 
 class Image(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название изображение")
+    title = models.CharField(max_length=300, verbose_name="Название изображение")
     image = models.ImageField(upload_to="allImages", verbose_name="Изображения")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
@@ -97,7 +98,7 @@ class Image(models.Model):
 
 
 class Audio(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название аудио")
+    title = models.CharField(max_length=300, verbose_name="Название аудио")
     audio = models.FileField(upload_to="allAudio", verbose_name="Аудио")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
@@ -108,7 +109,7 @@ class Audio(models.Model):
 
 
 class Reel(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название рилса")
+    title = models.CharField(max_length=300, verbose_name="Название рилса")
     image = models.ImageField(upload_to="reels", verbose_name="Превью рилса")
     content = models.TextField(verbose_name="Втройка рилса")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки рилса на сайт")
@@ -120,9 +121,9 @@ class Reel(models.Model):
 
 
 class YouTubeVids(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название видио")
+    title = models.CharField(max_length=300, verbose_name="Название видио")
     image = models.ImageField(upload_to="reels", verbose_name="Превью видио")
-    link = models.CharField(max_length=200, verbose_name="Сслыка на ютуб видео")
+    link = models.CharField(max_length=300, verbose_name="Сслыка на ютуб видео")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки видио на сайт")
 
     class Meta:
