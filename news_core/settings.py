@@ -162,10 +162,27 @@ SWAGGER_SETTINGS = {
     'SCHEMES': ['https']
 }
 
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "authorization",
+    "content-type",
+    "origin",
+    "x-requested-with",
+]
+
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:3000',
     'http://10.100.234.8:3000',
     'http://192.168.1.28:3000'
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 

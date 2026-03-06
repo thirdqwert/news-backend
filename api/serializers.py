@@ -53,8 +53,8 @@ class NewsSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
     
     def update(self, instance, validated_data):
-        input_preview = validated_data.pop("preview")
-        input_main_image = validated_data.pop("main_image")
+        input_preview = validated_data.pop("preview", None)
+        input_main_image = validated_data.pop("main_image", None)
         
         if input_preview is not None:
             preview = save_image(input_preview)
