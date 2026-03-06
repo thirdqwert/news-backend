@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Subcategory, News, Image, Audio, Reel, YouTubeVids
-from .utils import save_image
+from .utils import save_image, save_preview
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
@@ -43,25 +43,21 @@ class NewsSerializer(serializers.ModelSerializer):
     subcategory_slug = serializers.SerializerMethodField(method_name="get_subcategory_slug")
 
     def create(self, validated_data):
-        input_preview = validated_data.pop("preview")
-        preview = save_image(input_preview)
-        input_main_image = validated_data.pop("main_image")
-        main_image = save_image(input_main_image)
+        input_image = validated_data.pop("main_image")
+        preview = save_preview(input_image)
+        main_image = save_image(input_image)
         validated_data.update({ "preview": preview })
         validated_data.update({ "main_image": main_image })
 
         return super().create(validated_data)
     
     def update(self, instance, validated_data):
-        input_preview = validated_data.pop("preview", None)
-        input_main_image = validated_data.pop("main_image", None)
+        input_image = validated_data.pop("main_image", None)
         
-        if input_preview is not None:
-            preview = save_image(input_preview)
+        if input_image is not None:
+            preview = save_preview(input_image)
             validated_data.update({ "preview": preview })
-
-        if input_main_image is not None:
-            main_image = save_image(input_preview)
+            main_image = save_image(input_image)
             validated_data.update({ "main_image": main_image })
 
 
@@ -78,7 +74,7 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ["id", "title", "short_title", "category", "categery_slug", "subcategory", "subcategory_slug", "desc", "content", "views", "preview", "main_image", "created_at", "category_choose", "subcategory_choose"]
-        read_only_fields = ["views", "created_at", "categery_slug", "subcategory_slug",]
+        read_only_fields = ["views", "created_at", "categery_slug", "subcategory_slug", "preview"]
 
 
 # class ArticleSerializer(serializers.ModelSerializer):

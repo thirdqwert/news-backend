@@ -10,10 +10,35 @@ def save_image(input_image):
     # Функция конвертирование и сохранение изображений 
     img = Pillow_Image.open(input_image)
     buffer = io.BytesIO()
-    img.save(buffer, format="AVIF", quality=60)
+    img.save(buffer, format="AVIF", quality=50)
     file_name = f"{str(datetime.now())}.avif"
     django_file = ContentFile(buffer.getvalue(), name=file_name)
 
+    return django_file
+
+
+def save_preview(input_image):
+    img = Pillow_Image.open(input_image)
+
+    target_ratio = 1200 / 630
+    width, height = img.size
+    current_ratio = width / height
+
+    if current_ratio > target_ratio:
+        new_width = int(height * target_ratio)
+        left = (width - new_width) // 2
+        img = img.crop((left, 0, left + new_width, height))
+    else:
+        new_height = int(width / target_ratio)
+        top = (height - new_height) // 2
+        img = img.crop((0, top, width, top + new_height))
+
+    img = img.resize((1200, 630), Pillow_Image.LANCZOS)
+
+    buffer = io.BytesIO()
+    img.save(buffer, format="AVIF", quality=60)
+    file_name = f"preview_{str(datetime.now())}.avif"
+    django_file = ContentFile(buffer.getvalue(), name=file_name)
     return django_file
 
 
