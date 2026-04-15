@@ -168,7 +168,7 @@ STORAGES = {
 }
 
 MEDIA_URL = f"https://{os.environ.get('R2_PUBLIC_DOMAIN')}/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = False
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),

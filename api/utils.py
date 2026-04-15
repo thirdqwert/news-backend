@@ -49,7 +49,7 @@ def filter_data(request, queryset):
         searchBy = request.query_params.get('searchBy')
 
         if searchBy is not None:
-            queryset = queryset.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy))
+            queryset = queryset.filter(Q(title__icontains=searchBy) | Q(desc__icontains=searchBy) | Q(short_title__icontains=searchBy))
         
         if categoryBy is not None:
             queryset = queryset.filter(category__slug=categoryBy)
